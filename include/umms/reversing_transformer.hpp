@@ -32,12 +32,13 @@ namespace umms
 	class reversing_transformer : public transformer<raw_atom>
 	{
 		public:
-			inline void process
+			inline bool process
 			(
 				raw_atom &atom
 			)
 			{
 				std::reverse( atom.begin(), atom.end() );
+				return true;
 			}
 	};
 }

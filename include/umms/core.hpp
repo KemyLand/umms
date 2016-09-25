@@ -72,7 +72,7 @@ namespace umms
 			virtual ~transformer() = 0;
 
 
-			virtual void process
+			virtual bool process
 			(
 				AtomType &atom
 			) = 0;
@@ -192,7 +192,10 @@ namespace umms
 			{
 				for( auto &transformer : this->transformers )
 				{
-					transformer->process( atom );
+					if( !transformer->process( atom ) )
+					{
+						return;
+					}
 				}
 
 				this->pipe_endpoint.send( std::move( atom ) );
