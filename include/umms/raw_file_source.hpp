@@ -46,7 +46,7 @@ namespace umms
 
 			bool receive
 			(
-				raw_atom &what
+				raw_atom &atom
 			);
 	};
 }

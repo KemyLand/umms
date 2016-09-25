@@ -34,10 +34,10 @@ namespace umms
 		public:
 			inline void process
 			(
-				raw_atom &what
+				raw_atom &atom
 			)
 			{
-				std::reverse( what.begin(), what.end() );
+				std::reverse( atom.begin(), atom.end() );
 			}
 	};
 }

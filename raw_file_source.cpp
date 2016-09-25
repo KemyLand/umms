@@ -27,15 +27,15 @@
 
 bool umms::raw_file_source::receive
 (
-	umms::raw_atom &what
+	umms::raw_atom &atom
 )
 {
-	what.clear();
+	atom.clear();
 
 	int ret;
 	while( ( ret = this->input.get() ) != EOF && ret != '\n' )
 	{
-		what.push_back( ret );;
+		atom.push_back( ret );;
 	}
 
 	return this->input.good();

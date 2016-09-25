@@ -38,7 +38,7 @@ namespace umms
 
 			virtual bool receive
 			(
-				AtomType &what
+				AtomType &atom
 			) = 0;
 	};
 
@@ -56,7 +56,7 @@ namespace umms
 
 			virtual void send
 			(
-				AtomType &&what
+				AtomType &&atom
 			) = 0;
 	};
 
@@ -74,7 +74,7 @@ namespace umms
 
 			virtual void process
 			(
-				AtomType &what
+				AtomType &atom
 			) = 0;
 	};
 
@@ -84,14 +84,13 @@ namespace umms
 
 
 	template<typename AtomType>
-	class pipeline
+	class pipeline : public endpoint<AtomType>
 	{
 		public:
 			using transformer_handle = std::unique_ptr<transformer<AtomType>>;
 
 
 		private:
-			source<AtomType>&               pipe_source;
 			endpoint<AtomType>&             pipe_endpoint;
 			std::vector<transformer_handle> transformers;
 
@@ -100,11 +99,9 @@ namespace umms
 			template<typename... OtherTypes>
 			inline pipeline
 			(
-				source<AtomType>& pipe_source,
 				OtherTypes&&...   others
 			)
-			: pipe_source   ( pipe_source                                               ),
-			  pipe_endpoint ( extract_endpoint( std::forward<OtherTypes>( others )... ) )
+			: pipe_endpoint ( extract_endpoint( std::forward<OtherTypes>( others )... ) )
 			{
 				this->handle_transformer_list( std::forward<OtherTypes>( others )... );
 			}
@@ -188,21 +185,17 @@ namespace umms
 			}
 
 
-			bool flowstep()
+			void send
+			(
+				AtomType &&atom
+			)
 			{
-				AtomType atom;
-				if( !this->pipe_source.receive( atom ) )
-				{
-					return false;
-				}
-
 				for( auto &transformer : this->transformers )
 				{
 					transformer->process( atom );
 				}
 
 				this->pipe_endpoint.send( std::move( atom ) );
-				return true;
 			}
 	};
 

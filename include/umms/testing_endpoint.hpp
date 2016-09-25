@@ -46,7 +46,7 @@ namespace umms
 
 			void send
 			(
-				raw_atom &&what
+				raw_atom &&atom
 			);
 	};
 }

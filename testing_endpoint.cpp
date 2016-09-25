@@ -26,11 +26,11 @@
 
 void umms::testing_endpoint::send
 (
-	umms::raw_atom &&what
+	umms::raw_atom &&atom
 )
 {
 	this->output << "[ " << std::hex;
-	for( auto byte : what )
+	for( auto byte : atom )
 	{
 		this->output << std::setfill( '0' ) << std::setw( 2 ) << (int)byte << ' ';
 	}

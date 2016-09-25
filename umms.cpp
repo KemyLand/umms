@@ -19,6 +19,7 @@
 
 #include <iostream>
 #include <memory>
+#include <utility>
 
 
 #include <umms/core.hpp>
@@ -33,8 +34,13 @@ int main()
 
 	raw_file_source source { std::cin  };
 	testing_endpoint endpoint { std::cout };
-	raw_pipeline pipeline { source, std::unique_ptr<transformer<raw_atom>>( new reversing_transformer ), endpoint };
+	raw_pipeline pipeline { std::unique_ptr<transformer<raw_atom>>( new reversing_transformer ), endpoint };
 
-	while( pipeline.flowstep() );
+	raw_atom atom;
+	while( source.receive( atom ) )
+	{
+		pipeline.send( std::move( atom ) );
+	}
+
 	return 0;
 }
