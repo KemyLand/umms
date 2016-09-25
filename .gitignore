@@ -1,0 +1,6 @@
+# Ignore everything but sources, the GPL, documentation, and this file itself.
+*
+!*.c
+!Makefile
+!LICENSE
+!.gitignore
