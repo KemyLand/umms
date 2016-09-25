@@ -1,6 +1,7 @@
-# Ignore everything but sources, the GPL, documentation, and this file itself.
-*
-!*.c
-!Makefile
-!LICENSE
-!.gitignore
+# Compiled Object files
+*.o
+*.obj
+
+# Executables
+*.exe
+*.bin
