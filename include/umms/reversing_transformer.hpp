@@ -1,5 +1,5 @@
-#ifndef REVERSING_TRANSFORMER_HPP
-#define REVERSING_TRANSFORMER_HPP
+#ifndef UMMS_REVERSING_TRANSFORMER_HPP
+#define UMMS_REVERSING_TRANSFORMER_HPP
 
 
 /* A raw, simple transformer that just bitwise-reverses the contents of each atom.

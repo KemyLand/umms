@@ -1,7 +1,7 @@
 L_CXXFLAGS  := $(CXXFLAGS) -Iinclude -std=c++14
 L_LDFLAGS   := $(LDFLAGS)
 EXE         := umms.bin
-SRCS        := $(shell find . -name '*.cpp')
+SRCS        := $(shell find umms -name '*.cpp')
 OBJS        := $(addsuffix .o,$(basename $(SRCS)))
 HEADERS     := $(shell find include -name '*.hpp')
 
@@ -14,4 +14,4 @@ clean:
 	rm -rf $(EXE) $(OBJS)
 
 %.o: %.cpp $(HEADERS)
-	$(CXX) $(L_CXXFLAGS) -c $<
+	$(CXX) $(L_CXXFLAGS) -o $@ -c $<

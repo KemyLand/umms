@@ -1,5 +1,5 @@
-#ifndef CORE_HPP
-#define CORE_HPP
+#ifndef UMMS_CORE_HPP
+#define UMMS_CORE_HPP
 
 
 /* Definitions of core concepts, such as pipelines, sources, endpoints, etc...

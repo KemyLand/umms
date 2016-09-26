@@ -1,5 +1,5 @@
-#ifndef RAW_FILE_SOURCE_HPP
-#define RAW_FILE_SOURCE_HPP
+#ifndef UMMS_RAW_FILE_SOURCE_HPP
+#define UMMS_RAW_FILE_SOURCE_HPP
 
 
 /* A raw source coming from a file. Each line is sent as an atom.

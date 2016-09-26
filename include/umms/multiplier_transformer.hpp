@@ -1,5 +1,5 @@
-#ifndef MULTIPLIER_TRANSFORMER_HPP
-#define MULTIPLIER_TRANSFORMER_HPP
+#ifndef UMMS_MULTIPLIER_TRANSFORMER_HPP
+#define UMMS_MULTIPLIER_TRANSFORMER_HPP
 
 
 /* For each two input atoms X and Y, outputs X times Y as a single atom.

@@ -1,5 +1,5 @@
-#ifndef INT_VIA_RAW_GATEWAY_HPP
-#define INT_VIA_RAW_GATEWAY_HPP
+#ifndef UMMS_INT_VIA_RAW_GATEWAY_HPP
+#define UMMS_INT_VIA_RAW_GATEWAY_HPP
 
 
 /* Int to raw and raw to int gateways.

@@ -1,5 +1,5 @@
-#ifndef TESTING_ENDPOINT_HPP
-#define TESTING_ENDPOINT_HPP
+#ifndef UMMS_TESTING_ENDPOINT_HPP
+#define UMMS_TESTING_ENDPOINT_HPP
 
 
 /* A testing, file-based endpoint.
