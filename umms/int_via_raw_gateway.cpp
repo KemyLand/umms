@@ -64,6 +64,11 @@ void umms::gateway<int, umms::raw_atom>::send
 		divisor /= 10;
 
 		output.push_back( '0' + digit );
+		while( divisor >= 1 && atom / divisor == 0 )
+		{
+			output.push_back( '0' );
+			divisor /= 10;
+		}
 	} while( atom > 0 );
 
 	this->gateway_endpoint.send( std::move( output ) );
