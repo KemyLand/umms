@@ -22,15 +22,16 @@
 
 
 #include <umms/core.hpp>
+#include <umms/atoms.hpp>
 
 
 namespace umms
 {
-	class multiplier_transformer : public transformer<int>
+	class multiplier_transformer : public transformer<int_atom>
 	{
 		private:
-			bool flip_flop;
-			int  temporary;
+			bool     flip_flop;
+			int_atom temporary;
 
 
 		public:
@@ -41,7 +42,7 @@ namespace umms
 
 			bool process
 			(
-				int &atom
+				int_atom &atom
 			);
 	};
 }

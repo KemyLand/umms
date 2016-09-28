@@ -23,6 +23,7 @@
 
 
 #include <umms/core.hpp>
+#include <umms/atoms.hpp>
 #include <umms/raw_file_source.hpp>
 #include <umms/testing_endpoint.hpp>
 #include <umms/reversing_transformer.hpp>
@@ -35,9 +36,9 @@ int main()
 	using namespace umms;
 
 	testing_endpoint endpoint { std::cout };
-	gateway<int, raw_atom> output_gateway { endpoint };
-	pipeline<int> multiplier { std::unique_ptr<transformer<int>>( new multiplier_transformer ), std::unique_ptr<transformer<int>>( new multiplier_transformer ), output_gateway };
-	gateway<raw_atom, int> my_gateway { multiplier };
+	gateway<int_atom, raw_atom> output_gateway { endpoint };
+	int_pipeline multiplier { std::unique_ptr<transformer<int>>( new multiplier_transformer ), std::unique_ptr<transformer<int>>( new multiplier_transformer ), output_gateway };
+	gateway<raw_atom, int_atom> my_gateway { multiplier };
 	raw_pipeline pipeline { std::unique_ptr<transformer<raw_atom>>( new reversing_transformer ), my_gateway };
 	raw_file_source source { std::cin };
 

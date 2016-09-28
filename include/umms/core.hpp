@@ -205,10 +205,6 @@ namespace umms
 
 	template<typename InputAtomType, typename OutputAtomType>
 	class gateway;
-
-
-	using raw_atom     = std::vector<unsigned char>;
-	using raw_pipeline = pipeline<raw_atom>;
 }
 
 

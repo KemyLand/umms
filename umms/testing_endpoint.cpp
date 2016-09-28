@@ -21,6 +21,7 @@
 
 
 #include <umms/core.hpp>
+#include <umms/atoms.hpp>
 #include <umms/testing_endpoint.hpp>
 
 

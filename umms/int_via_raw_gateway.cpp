@@ -21,10 +21,11 @@
 
 
 #include <umms/core.hpp>
+#include <umms/atoms.hpp>
 #include <umms/int_via_raw_gateway.hpp>
 
 
-void umms::gateway<umms::raw_atom, int>::send
+void umms::gateway<umms::raw_atom, umms::int_atom>::send
 (
 	umms::raw_atom &&atom
 )
@@ -39,9 +40,9 @@ void umms::gateway<umms::raw_atom, int>::send
 }
 
 
-void umms::gateway<int, umms::raw_atom>::send
+void umms::gateway<umms::int_atom, umms::raw_atom>::send
 (
-	int &&atom
+	umms::int_atom &&atom
 )
 {
 	raw_atom output;

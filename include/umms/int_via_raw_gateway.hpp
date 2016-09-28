@@ -22,21 +22,22 @@
 
 
 #include <umms/core.hpp>
+#include <umms/atoms.hpp>
 
 
 namespace umms
 {
 	template<>
-	class gateway<raw_atom, int> : public endpoint<raw_atom>
+	class gateway<raw_atom, int_atom> : public endpoint<raw_atom>
 	{
 		private:
-			endpoint<int>& gateway_endpoint;
+			endpoint<int_atom>& gateway_endpoint;
 
 
 		public:
 			inline gateway
 			(
-				endpoint<int>& gateway_endpoint
+				endpoint<int_atom>& gateway_endpoint
 			)
 			: gateway_endpoint( gateway_endpoint )
 			{}
@@ -50,7 +51,7 @@ namespace umms
 
 
 	template<>
-	class gateway<int, raw_atom> : public endpoint<int>
+	class gateway<int_atom, raw_atom> : public endpoint<int>
 	{
 		private:
 			endpoint<raw_atom>& gateway_endpoint;
@@ -67,7 +68,7 @@ namespace umms
 
 			void send
 			(
-				int &&atom
+				int_atom &&atom
 			);
 	};
 }

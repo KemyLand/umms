@@ -1,4 +1,8 @@
-/* For each two input atoms X and Y, outputs X times Y as a single atom.
+#ifndef UMMS_ATOMS_HPP
+#define UMMS_ATOMS_HPP
+
+
+/* Global atom kind exports.
  *
  * Copyright (C) 2016: Alejandro Soto
  *
@@ -17,24 +21,20 @@
  */
 
 
+#include <vector>
+
+
 #include <umms/core.hpp>
-#include <umms/atoms.hpp>
-#include <umms/multiplier_transformer.hpp>
 
 
-bool umms::multiplier_transformer::process
-(
-	umms::int_atom &atom
-)
+namespace umms
 {
-	this->flip_flop = !this->flip_flop;
-	if( !this->flip_flop )
-	{
-		atom *= this->temporary;
-		return true;
-	} else
-	{
-		this->temporary = atom;
-		return false;
-	}
+	using raw_atom = std::vector<unsigned char>;
+	using int_atom = int;
+
+	using raw_pipeline = pipeline<raw_atom>;
+	using int_pipeline = pipeline<int_atom>;
 }
+
+
+#endif

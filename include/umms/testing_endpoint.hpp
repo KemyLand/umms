@@ -25,6 +25,7 @@
 
 
 #include <umms/core.hpp>
+#include <umms/atoms.hpp>
 
 
 namespace umms

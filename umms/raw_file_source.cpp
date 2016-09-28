@@ -22,6 +22,7 @@
 
 
 #include <umms/core.hpp>
+#include <umms/atoms.hpp>
 #include <umms/raw_file_source.hpp>
 
 
