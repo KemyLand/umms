@@ -22,30 +22,39 @@
 #include <utility>
 
 
+#include <libnet/ip.hpp>
+#include <libnet/udp.hpp>
+
+
 #include <umms/core.hpp>
 #include <umms/atoms.hpp>
-#include <umms/raw_file_source.hpp>
+#include <umms/udp_source.hpp>
 #include <umms/testing_endpoint.hpp>
 #include <umms/reversing_transformer.hpp>
 #include <umms/multiplier_transformer.hpp>
 #include <umms/int_via_raw_gateway.hpp>
+#include <umms/ipv6_via_raw_gateway.hpp>
 
 
 int main()
 {
 	using namespace umms;
 
+	libnet::udp_socket server_socket = libnet::ipv6_any_address;
+	std::cerr << "Listening on " << server_socket.get_address().show() << "...\n";
+
 	testing_endpoint endpoint { std::cout };
 	gateway<int_atom, raw_atom> output_gateway { endpoint };
 	int_pipeline multiplier { std::unique_ptr<transformer<int>>( new multiplier_transformer ), std::unique_ptr<transformer<int>>( new multiplier_transformer ), output_gateway };
-	gateway<raw_atom, int_atom> my_gateway { multiplier };
-	raw_pipeline pipeline { std::unique_ptr<transformer<raw_atom>>( new reversing_transformer ), my_gateway };
-	raw_file_source source { std::cin };
+	gateway<raw_atom, int_atom> multiplier_gateway { multiplier };
+	raw_pipeline reverser { std::unique_ptr<transformer<raw_atom>>( new reversing_transformer ), multiplier_gateway };
+	gateway<ipv6_packet_atom, raw_atom> udp_gateway { reverser };
+	udp_source source { server_socket };
 
-	raw_atom atom;
+	ipv6_packet_atom atom = libnet::ipv6_any_address;
 	while( source.receive( atom ) )
 	{
-		pipeline.send( std::move( atom ) );
+		udp_gateway.send( std::move( atom ) );
 	}
 
 	return 0;
