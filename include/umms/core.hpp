@@ -203,6 +203,36 @@ namespace umms
 	};
 
 
+	template<typename AtomType>
+	class bifurcation : public endpoint<AtomType>
+	{
+		private:
+			endpoint<AtomType>& left_endpoint;
+			endpoint<AtomType>& right_endpoint;
+
+
+		public:
+			inline bifurcation
+			(
+				endpoint<AtomType>& left_endpoint,
+				endpoint<AtomType>& right_endpoint
+			)
+			: left_endpoint  ( left_endpoint  ),
+			  right_endpoint ( right_endpoint )
+			{}
+
+
+			void send
+			(
+				AtomType&& atom
+			)
+			{
+				this->left_endpoint.send( AtomType( static_cast<const AtomType&>( atom ) ) );
+				this->right_endpoint.send( std::move( atom ) );
+			}
+	};
+
+
 	template<typename InputAtomType, typename OutputAtomType>
 	class gateway;
 }
