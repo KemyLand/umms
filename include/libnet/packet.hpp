@@ -28,6 +28,10 @@
 namespace libnet
 {
 	template<typename AddressType>
+	const AddressType& placeholder_address();
+
+
+	template<typename AddressType>
 	class packet
 	{
 		private:
@@ -38,7 +42,7 @@ namespace libnet
 		public:
 			inline packet
 			(
-				const AddressType&           peer_address,
+				const AddressType&           peer_address = placeholder_address<AddressType>(),
 				std::vector<unsigned char>&& payload      = std::vector<unsigned char>()
 			)
 			: peer_address ( peer_address         ),

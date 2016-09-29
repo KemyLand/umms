@@ -163,6 +163,20 @@ namespace libnet
 
 	extern const ipv4_socket_address ipv4_any_address;
 	extern const ipv6_socket_address ipv6_any_address;
+
+
+	template<>
+	inline const ipv4_socket_address& placeholder_address<ipv4_socket_address>()
+	{
+		return ipv4_any_address;
+	}
+
+
+	template<>
+	inline const ipv6_socket_address& placeholder_address<ipv6_socket_address>()
+	{
+		return ipv6_any_address;
+	}
 }
 
 
