@@ -65,17 +65,14 @@ namespace libnet
 
 			bool receive
 			(
-				ipv6_socket_address&        source_address,
-				std::vector<unsigned char>& datagram      ,
-				bool                        non_blocking    = false
+				ipv6_packet& packet,
+				bool         non_blocking    = false
 			);
 
 
 			void send
 			(
-				const ipv6_socket_address& destination_address,
-				const void*                packet,
-				std::size_t                packet_size
+				const ipv6_packet& what
 			);
 
 

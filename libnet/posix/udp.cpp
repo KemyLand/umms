@@ -32,6 +32,7 @@
 #include <unistd.h>
 
 
+#include <libnet/ip.hpp>
 #include <libnet/udp.hpp>
 
 
@@ -213,30 +214,28 @@ bool libnet::udp_socket::is_ready()
 
 bool libnet::udp_socket::receive
 (
-	libnet::ipv6_socket_address& source_address,
-	std::vector<unsigned char>&  datagram,
-	bool                         non_blocking
+	libnet::ipv6_packet& packet,
+	bool                 non_blocking
 )
 {
 	struct internal_implementation& internal = static_cast<struct internal_implementation&>( *this->socket_internal );
 	if( internal.is_cache_ready )
 	{
-		datagram = std::move( internal.cache_datagram );
-		source_address = normalize_address( internal.cache_source_address );
-
+		packet = ipv6_packet( normalize_address( internal.cache_source_address ), std::move( internal.cache_datagram ) );
 		internal.is_cache_ready = false;
 	} else
 	{
 		struct sockaddr_in6 in6_addr;
+		std::vector<unsigned char> payload;
 
 		size_t source_address_length = sizeof( struct sockaddr_in6 );
 		ssize_t ret;
-		if( !try_receive( internal.socket_file, datagram, non_blocking, in6_addr ) )
+		if( !try_receive( internal.socket_file, payload, non_blocking, in6_addr ) )
 		{
 			return false;
 		}
 
-		source_address = normalize_address( in6_addr );
+		packet = ipv6_packet( normalize_address( in6_addr ), std::move( payload ) );
 	}
 
 	return true;
@@ -245,16 +244,14 @@ bool libnet::udp_socket::receive
 
 void libnet::udp_socket::send
 (
-	const libnet::ipv6_socket_address& address,
-	const void*                        packet,
-	std::size_t                        packet_size
+	const libnet::ipv6_packet& packet
 )
 {
 	struct internal_implementation& internal = static_cast<struct internal_implementation&>( *this->socket_internal );
-	struct sockaddr_in6 in6_addr = denormalize_address( address );
+	struct sockaddr_in6 in6_addr = denormalize_address( packet.get_peer_address() );
 	if
-	( sendto( internal.socket_file, packet, packet_size, 0, reinterpret_cast<const struct sockaddr*>( &in6_addr ),
-	          sizeof( struct sockaddr_in6 )
+	( sendto( internal.socket_file, packet.get_payload().data(), packet.get_payload().size(), 0,
+	          reinterpret_cast<const struct sockaddr*>( &in6_addr ), sizeof( struct sockaddr_in6 )
 	        ) < 0
 	)
 	{

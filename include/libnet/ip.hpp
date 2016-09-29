@@ -26,6 +26,9 @@
 #include <cstdint>
 
 
+#include <libnet/packet.hpp>
+
+
 namespace libnet
 {
 	using raw_ipv4_address = std::array<std::uint8_t, 4>;
@@ -142,6 +145,8 @@ namespace libnet
 
 	using ipv4_socket_address = ip_socket_address<ipv4_address>;
 	using ipv6_socket_address = ip_socket_address<ipv6_address>;
+	using ipv4_packet         = packet<ipv4_socket_address>;
+	using ipv6_packet         = packet<ipv6_socket_address>;
 
 
 	bool is_valid_ipv4_address
