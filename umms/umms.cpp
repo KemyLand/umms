@@ -30,6 +30,7 @@
 #include <umms/atoms.hpp>
 #include <umms/udp_source.hpp>
 #include <umms/testing_endpoint.hpp>
+#include <umms/udp_endpoint.hpp>
 #include <umms/reversing_transformer.hpp>
 #include <umms/multiplier_transformer.hpp>
 #include <umms/int_via_raw_gateway.hpp>
@@ -40,11 +41,16 @@ int main()
 {
 	using namespace umms;
 
-	libnet::udp_socket server_socket = libnet::ipv6_any_address;
-	std::cerr << "Listening on " << server_socket.get_address().show() << "...\n";
+	libnet::udp_socket server_socket { libnet::ipv6_any_address };
+	libnet::ipv6_socket_address destination_address { libnet::ipv6_address( "::" ), 1434 };
 
-	testing_endpoint endpoint { std::cout };
-	gateway<int_atom, raw_atom> output_gateway { endpoint };
+	std::cerr << "Listening on " << server_socket.get_address().show() << "...\n";
+	std::cerr << "The forked flows goes to " << destination_address.show() << "...\n";
+
+	testing_endpoint left_endpoint { std::cout };
+	udp_endpoint right_endpoint { server_socket, destination_address };
+	bifurcation<raw_atom> output_bifurcation { left_endpoint, right_endpoint };
+	gateway<int_atom, raw_atom> output_gateway { output_bifurcation };
 	int_pipeline multiplier { std::unique_ptr<transformer<int>>( new multiplier_transformer ), std::unique_ptr<transformer<int>>( new multiplier_transformer ), output_gateway };
 	gateway<raw_atom, int_atom> multiplier_gateway { multiplier };
 	raw_pipeline reverser { std::unique_ptr<transformer<raw_atom>>( new reversing_transformer ), multiplier_gateway };
