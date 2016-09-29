@@ -24,16 +24,24 @@
 #include <vector>
 
 
+#include <libnet/ip.hpp>
+
+
 #include <umms/core.hpp>
 
 
 namespace umms
 {
-	using raw_atom = std::vector<unsigned char>;
-	using int_atom = int;
+	using raw_atom         = std::vector<unsigned char>;
+	using int_atom         = int;
+	using ipv4_packet_atom = libnet::ipv4_packet;
+	using ipv6_packet_atom = libnet::ipv6_packet;
 
-	using raw_pipeline = pipeline<raw_atom>;
-	using int_pipeline = pipeline<int_atom>;
+
+	using raw_pipeline         = pipeline<raw_atom>;
+	using int_pipeline         = pipeline<int_atom>;
+	using ipv4_packet_pipeline = pipeline<ipv4_packet_atom>;
+	using ipv6_packet_pipeline = pipeline<ipv6_packet_atom>;
 }
 
 
