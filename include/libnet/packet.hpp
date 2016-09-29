@@ -39,7 +39,7 @@ namespace libnet
 			inline packet
 			(
 				const AddressType&           peer_address,
-				std::vector<unsigned char>&& payload
+				std::vector<unsigned char>&& payload      = std::vector<unsigned char>()
 			)
 			: peer_address ( peer_address         ),
 			  payload      ( std::move( payload ) )
