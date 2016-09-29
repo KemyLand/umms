@@ -49,13 +49,13 @@ namespace libnet
 		public:
 			udp_socket
 			(
-				const ipv4_socket_address& address = ipv4_any_address
+				const ipv4_socket_address& address
 			);
 
 
 			udp_socket
 			(
-				const ipv6_socket_address& address    = ipv6_any_address,
+				const ipv6_socket_address& address,
 				bool                       allow_ipv4 = true
 			);
 
