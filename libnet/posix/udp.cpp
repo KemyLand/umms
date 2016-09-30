@@ -22,7 +22,6 @@
 #include <vector>
 #include <utility>
 #include <cstddef>
-#include <cstring>
 #include <cerrno>
 
 
@@ -34,6 +33,7 @@
 
 #include <libnet/ip.hpp>
 #include <libnet/udp.hpp>
+#include <libnet/posix.hpp>
 
 
 struct internal_implementation : public libnet::udp_socket::internal
@@ -80,46 +80,6 @@ static void initialize_socket
 	{
 		throw std::system_error( errno, std::system_category() );
 	}
-}
-
-
-static libnet::ipv6_socket_address normalize_address
-(
-	const struct sockaddr_in6& in6_addr
-)
-{
-	using namespace libnet;
-
-	raw_ipv6_address raw_address;
-	for( unsigned i = 0; i < 8; i++ )
-	{
-		raw_address[ i ] = ( static_cast<std::uint16_t>( in6_addr.sin6_addr.s6_addr[ i * 2 ] ) << 8 )
-		                   | in6_addr.sin6_addr.s6_addr[ i * 2 + 1 ];
-	}
-
-	return ipv6_socket_address( raw_address, ntohs( in6_addr.sin6_port ) );
-}
-
-
-static struct sockaddr_in6 denormalize_address
-(
-	const libnet::ipv6_socket_address& address
-)
-{
-	using namespace libnet;
-
-	struct sockaddr_in6 in6_addr;
-	std::memset( &in6_addr, 0, sizeof( struct sockaddr_in ) );
-
-	in6_addr.sin6_family = AF_INET6;
-	in6_addr.sin6_port = htons( address.get_port() );
-	for( unsigned i = 0; i < 16; i++ )
-	{
-		std::uint16_t field = address.get_address().as_raw()[ i / 2 ];
-		in6_addr.sin6_addr.s6_addr[ i ] = i % 2 == 0 ? field >> 8 : field & 0xFF;
-	}
-
-	return in6_addr;
 }
 
 
