@@ -36,29 +36,32 @@
 #include <libnet/posix.hpp>
 
 
-struct internal_implementation : public libnet::udp_socket::internal
+namespace
 {
-	int                        socket_file;
-	struct sockaddr_in6        cache_source_address;
-	std::vector<unsigned char> cache_datagram;
-	bool                       is_cache_ready;
-
-
-	internal_implementation()
-	: is_cache_ready( false )
+	struct internal_implementation : public libnet::udp_socket::internal
 	{
-		if( ( this->socket_file = socket( AF_INET6, SOCK_DGRAM, 0 ) ) < 0 )
+		int                        socket_file;
+		struct sockaddr_in6        cache_source_address;
+		std::vector<unsigned char> cache_datagram;
+		bool                       is_cache_ready;
+
+
+		internal_implementation()
+		: is_cache_ready( false )
 		{
-			throw std::system_error( errno, std::system_category() );
+			if( ( this->socket_file = socket( AF_INET6, SOCK_DGRAM, 0 ) ) < 0 )
+			{
+				throw std::system_error( errno, std::system_category() );
+			}
 		}
-	}
 
 
-	~internal_implementation()
-	{
-		close( this->socket_file );
-	}
-};
+		~internal_implementation()
+		{
+			close( this->socket_file );
+		}
+	};
+}
 
 
 static void initialize_socket
